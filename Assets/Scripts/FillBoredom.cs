@@ -3,16 +3,36 @@ using UnityEngine.UI;
 
 public class FillBoredom : MonoBehaviour
 {
-    private Slider boredSlider;
-    [SerializeField] private int add;
+    
+    [SerializeField] private Slider boredSlider;
+    [SerializeField] private float fillSpeed = 10f;   // units per second
     [SerializeField] private ParticleSystem hearts;
-    private void OnMouseDrag()
+
+    public bool isHeld = false;
+
+
+    private void OnMouseDown()
     {
-        boredSlider.value = (boredSlider.value + add);
-        hearts.Play();
+        isHeld = true;
+
+        if (hearts != null)
+            hearts.Play();
     }
+
     private void OnMouseUp()
     {
-        hearts.Stop();
+        isHeld = false;
+
+        if (hearts != null)
+            hearts.Stop();
+    }
+
+    private void Update()
+    {
+        if (isHeld && boredSlider != null)
+        {
+            //boredSlider.value += fillSpeed * Time.deltaTime;
+            PetVariable.Instance.ChangeValue(fillSpeed);
+        }
     }
 }

@@ -6,7 +6,7 @@ using UnityEngine.Events;
 /// Attach this to a child GameObject of the main Pet.
 /// The GameObject's name will be used as the identifier for this variable and its Animator parameter.
 /// </summary>
-public class PetVariable : MonoBehaviour
+public class PetVariable1 : MonoBehaviour
 {
     [Header("Variable Settings")]
     [Tooltip("The current value of this variable.")]
@@ -31,7 +31,7 @@ public class PetVariable : MonoBehaviour
     private Animator animator;
     private string varName = "";
     private float currentTime = 0f;
-    public static PetVariable Instance { get; private set; }
+   
 
     private bool VariableExistsInAnimator(Animator animator, string parameterName)
     {
@@ -45,13 +45,6 @@ public class PetVariable : MonoBehaviour
 
     private void Awake()
     {
-
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        Instance = this;
 
         varName = gameObject.name;
 
