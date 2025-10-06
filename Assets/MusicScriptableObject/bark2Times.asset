@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 596715496ec421844a541ee38006e380, type: 3}
+  m_Name: bark2Times
+  m_EditorClassIdentifier: 
+  animationName: 
+  audio: {fileID: 8300000, guid: e6bb26657f621b84a866f1983ebedb4a, type: 3}
