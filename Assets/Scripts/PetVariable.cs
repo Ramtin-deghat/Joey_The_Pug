@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -32,6 +33,8 @@ public class PetVariable : MonoBehaviour
     private string varName = "";
     private float currentTime = 0f;
     public static PetVariable Instance { get; private set; }
+
+    public float valueToExitIdle = 16;
 
     private bool VariableExistsInAnimator(Animator animator, string parameterName)
     {
@@ -131,5 +134,18 @@ public class PetVariable : MonoBehaviour
     public void SetRandomValue()
     {
         SetValue(UnityEngine.Random.Range(minValue, maxValue));
+    }
+    public void TryToExitIdleAnimationState()
+    {
+        if (value < valueToExitIdle)
+        {
+            animator.SetBool("exitIdle", true);
+        }
+    }
+
+    public IEnumerator MakeExitIdleFalse()
+    {
+        yield return new WaitForEndOfFrame();
+        animator.SetBool("exitIdle", false);
     }
 }
