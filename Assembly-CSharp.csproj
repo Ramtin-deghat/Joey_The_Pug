@@ -61,6 +61,8 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.1.2f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\OnClickEvent.cs" />
+    <Compile Include="Assets\Scripts\HoverCursor.cs" />
     <Compile Include="Assets\Scripts\BGMusic.cs" />
     <Compile Include="Assets\Scripts\PetVariable.cs" />
     <Compile Include="Assets\Scripts\Idle.cs" />

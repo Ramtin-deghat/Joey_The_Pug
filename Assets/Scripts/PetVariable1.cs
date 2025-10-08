@@ -33,7 +33,8 @@ public class PetVariable1 : MonoBehaviour
     private string varName = "";
     private float currentTime = 0f;
 
-    public float valueToExitIdle = 16;
+    public float valueToRunTired = 16;
+    private bool valueToRunTiredAnimation = false;
 
     private bool VariableExistsInAnimator(Animator animator, string parameterName)
     {
@@ -131,15 +132,15 @@ public class PetVariable1 : MonoBehaviour
 
     public void TryToExitIdleAnimationState()
     {
-        if (value < valueToExitIdle)
+        if (value < valueToRunTired&&!valueToRunTiredAnimation)
         {
-            animator.SetBool("exitIdle", true);
+            valueToRunTiredAnimation = true;
+            animator.SetTrigger("isTired");
+        }
+        if (value > valueToRunTired)
+        {
+            valueToRunTiredAnimation=false;
         }
     }
 
-    public IEnumerator MakeExitIdleFalse()
-    {
-        yield return new WaitForEndOfFrame();
-        animator.SetBool("exitIdle", false);
-    }
 }

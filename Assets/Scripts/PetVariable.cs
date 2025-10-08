@@ -34,7 +34,10 @@ public class PetVariable : MonoBehaviour
     private float currentTime = 0f;
     public static PetVariable Instance { get; private set; }
 
-    public float valueToExitIdle = 16;
+    public float valueToRunSadAnimation = 16;
+    public float valueToRunHappyAnimation = 90;
+    private bool doesSadAnimRunned = false;
+    private bool doesHappyAnimRunned = false;
 
     private bool VariableExistsInAnimator(Animator animator, string parameterName)
     {
@@ -100,6 +103,7 @@ public class PetVariable : MonoBehaviour
             // Continuous update: smooth change per frame
             SetValue(value + changePerSecond * Time.deltaTime);
         }
+        TryToExitIdleAnimationState();
     }
 
     /// <summary>
@@ -137,15 +141,25 @@ public class PetVariable : MonoBehaviour
     }
     public void TryToExitIdleAnimationState()
     {
-        if (value < valueToExitIdle)
+        if (value < valueToRunSadAnimation&&!doesSadAnimRunned)
         {
-            animator.SetBool("exitIdle", true);
+            animator.SetTrigger("isSad");
+            doesSadAnimRunned = true;
+
+        }
+        if(value > valueToRunHappyAnimation&&!doesHappyAnimRunned)
+        {
+            animator.SetTrigger("isHappy");
+            doesHappyAnimRunned = true;
+        }
+        if (value > valueToRunSadAnimation)
+        {
+            doesSadAnimRunned = false;
+        }
+        if (value < valueToRunHappyAnimation)
+        {
+            doesHappyAnimRunned = false;
         }
     }
 
-    public IEnumerator MakeExitIdleFalse()
-    {
-        yield return new WaitForEndOfFrame();
-        animator.SetBool("exitIdle", false);
-    }
 }

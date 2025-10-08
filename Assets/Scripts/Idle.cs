@@ -29,19 +29,13 @@ public class Idle : MonoBehaviour
     {
         stateInfo = animator.GetCurrentAnimatorStateInfo(0);
 
-        // Start idle coroutine if in blend tree and not already running
-        if (stateInfo.IsName(blendTreeStateName) && !isChecking)
-        {
-            StartCoroutine(CheckForIdling());
-        }
-
         // If sadness or tiredness or player click occurs, stop sneaky loop
         if (IsInterrupted())
         {
             interrupted = true;
             StopAllCoroutines();
             isChecking = false;
-            ResetBlendTree();
+
         }
 
         CheckForSadness();
@@ -54,58 +48,9 @@ public class Idle : MonoBehaviour
         interrupted = true;
         StopAllCoroutines();
         isChecking = false;
-        ResetBlendTree();
     }
 
-    private IEnumerator CheckForIdling()
-    {
-        isChecking = true;
-        interrupted = false;
-        sneaky = 0f;
-        animator.SetFloat(sneakyParam, sneaky);
-
-        // Fast transition: first two animations
-        yield return new WaitForSeconds(5f);
-        sneaky = 0.5f;
-        animator.SetFloat(sneakyParam, sneaky);
-        yield return new WaitForSeconds(timeForStandingUp);
-        sneaky = 1f;
-        animator.SetFloat(sneakyParam, sneaky);
-        // Slow transition to last animation
-        float target = 3f;
-        float duration = 15f;
-        float elapsed = 0.1f;
-        float start = sneaky;
-
-        while (elapsed < duration && !interrupted)
-        {
-            elapsed += Time.deltaTime;
-            sneaky = Mathf.Lerp(start, target, elapsed / duration);
-            animator.SetFloat(sneakyParam, sneaky);
-            yield return null;
-        }
-
-        animator.SetFloat(sneakyParam, 6);
-
-        // Freeze at last animation if not interrupted
-        if (!interrupted)
-        {
-            sneaky = 1f;
-            animator.SetFloat(sneakyParam, sneaky);
-
-            // Stay at last animation until interrupted
-            while (!interrupted)
-                yield return null;
-        }
-
-        isChecking = false;
-    }
-
-    private void ResetBlendTree()
-    {
-        sneaky = 2f;
-        animator.SetFloat(sneakyParam, sneaky);
-    }
+   
 
     private bool IsInterrupted()
     {
